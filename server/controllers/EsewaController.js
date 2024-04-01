@@ -1,5 +1,7 @@
 const crypto = require("crypto");
 const Order = require("../model/Order");
+const dotenv = require("dotenv");
+dotenv.config();
 
 class EsewController {
   create_Signature = (message) => {
@@ -40,9 +42,7 @@ class EsewController {
     try {
       const dataString = req.body;
       return res.json({ sig: this.createSignature(dataString) });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   create_Order = async (req, res) => {
@@ -88,6 +88,13 @@ class EsewController {
       //   return res.json({ status: true, message: "sucess" });
     } catch (err) {
       return res.status(400).json({ error: err?.message || "No Orders found" });
+    }
+  };
+  handlePaymentFailure = async (req, res) => {
+    try {
+      res.redirect("http://192.168.50.251:3000/esewapaymentfailure");
+    } catch (error) {
+      return res.status(400).json({ error: err?.message || "Payment failed" });
     }
   };
 }

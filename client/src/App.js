@@ -1,23 +1,16 @@
 import React from "react";
-import Esewa from "./Components/Esewa";
-import PaymentButton from "./Components/PaymentButton";
 import PaymentButtonWithCallback from "./Components/PaymentButtonWithCallback";
-import PaymentButtonV1 from "./Components/PaymentButtonv1";
+import { Routes, Route } from "react-router-dom";
+import PaymentFailure from "./Components/PaymentFailure";
 
 const App = () => {
   return (
-    <>
-      <div>
-        {/* <Esewa /> */}
-      </div>
-    
-      {/* <div>
-        <PaymentButton />
-      </div> */}
-      <div>
-        <PaymentButtonWithCallback />
-      </div>
-    </>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<PaymentButtonWithCallback />} />
+        <Route path="/esewapaymentfailure" element={<PaymentFailure />} />
+      </Routes>
+    </div>
     // <div><PaymentButtonV1/></div>
   );
 };

@@ -14,4 +14,6 @@ router
     esewacontroller.updateOrderAfterPayment
   );
 
+router.route('/failure').get()
+
 module.exports = router;

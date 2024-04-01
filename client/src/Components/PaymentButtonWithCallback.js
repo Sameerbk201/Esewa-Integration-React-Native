@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 import "./Esewa.css";
 
 const PaymentButtonWithCallback = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState(null);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   const handleClick = () => {
     const totalAmount = 100;
     const transactionUUID = uuidv4();
@@ -34,7 +40,10 @@ const PaymentButtonWithCallback = () => {
       { name: "product_delivery_charge", value: "0" },
       // { name: "success_url", value: "http://localhost:3000" },
       { name: "success_url", value: "http://192.168.50.251:3000" },
-      { name: "failure_url", value: "https://google.com" },
+      {
+        name: "failure_url",
+        value: "http://192.168.50.251:3000/esewapaymentfailure",
+      },
       {
         name: "signed_field_names",
         value: "total_amount,transaction_uuid,product_code",
@@ -65,10 +74,8 @@ const PaymentButtonWithCallback = () => {
           console.log(dataParam);
           // Decode the String
           var decodedStringAtoB = atob(dataParam);
-          //   const decodedData = CryptoJS.AES.decrypt(
-          //     dataParam,
-          //     "8gBm/:&EnhH.1/q"
-          //   ).toString(CryptoJS.enc.Utf8);
+          setIsOpen(true);
+          setMessage(decodedStringAtoB);
           console.log(JSON.parse(decodedStringAtoB));
         } catch (error) {
           console.error("Error decoding data:", error);
@@ -98,21 +105,51 @@ const PaymentButtonWithCallback = () => {
       <div
         style={{
           display: "flex",
-          flexDirection:'column',
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          alignContent:'center',
+          alignContent: "center",
         }}
       >
         <div>
           <img
             src="http://developer.esewa.com.np/assets/img/esewa_logo.png"
-            style={{ height: "40px", width: "80px",position:'relative',left:'-10px' }}
+            style={{
+              height: "40px",
+              width: "80px",
+              position: "relative",
+              left: "-10px",
+            }}
           />
         </div>
         <button onClick={handleClick} className="btn">
           Pay Now
         </button>
+      </div>
+      <div className="modal-container">
+        {/* <button className="open-button" onClick={toggleModal}>
+          Open Modal
+        </button> */}
+        {isOpen && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header">
+                <h2>Modal Header</h2>
+                <button className="close-button" onClick={toggleModal}>
+                  &times;
+                </button>
+              </div>
+              <div className="modal-content">
+                <p style={{overflow:'auto'}}>{message}</p>
+              </div>
+              <div className="modal-footer">
+                <button className="close-button" onClick={toggleModal}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

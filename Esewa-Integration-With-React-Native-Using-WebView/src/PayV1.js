@@ -26,9 +26,9 @@ const PayV1 = () => {
         // Display the parsed data or perform any necessary actions
         Alert.alert("Payment Callback", JSON.stringify(parsedData));
 
-        const response = await fetch(testurl + transaction_uuid);
-        const confirmationdata = await response.json();
-        console.log({confirmationdata});
+        // const response = await fetch(testurl + transaction_uuid);
+        // const confirmationdata = await response.json();
+        // console.log({confirmationdata});
         // Prevent further navigation
         return false;
       }
