@@ -38,7 +38,6 @@ const PaymentButtonWithCallbackv1 = () => {
       { name: "product_code", value: productCode },
       { name: "product_service_charge", value: "0" },
       { name: "product_delivery_charge", value: "0" },
-      // { name: "success_url", value: "http://localhost:3000" },
       { name: "success_url", value: `${process.env.REACT_APP_FRONTEND_URL}` },
       {
         name: "failure_url",
