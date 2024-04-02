@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 import "./Esewa.css";
 
-const PaymentButtonWithCallback = () => {
+const PaymentButtonWithCallbackv1 = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState(null);
   const toggleModal = () => {
@@ -39,10 +39,10 @@ const PaymentButtonWithCallback = () => {
       { name: "product_service_charge", value: "0" },
       { name: "product_delivery_charge", value: "0" },
       // { name: "success_url", value: "http://localhost:3000" },
-      { name: "success_url", value: "http://192.168.50.251:3000" },
+      { name: "success_url", value: `${process.env.REACT_APP_FRONTEND_URL}` },
       {
         name: "failure_url",
-        value: "http://192.168.50.251:3000/esewapaymentfailure",
+        value: `${process.env.REACT_APP_FRONTEND_URL}/esewapaymentfailure`,
       },
       {
         name: "signed_field_names",
@@ -134,7 +134,7 @@ const PaymentButtonWithCallback = () => {
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                <h2>Modal Header</h2>
+                <h2>Transaction details</h2>
                 <button className="close-button" onClick={toggleModal}>
                   &times;
                 </button>
@@ -155,4 +155,4 @@ const PaymentButtonWithCallback = () => {
   );
 };
 
-export default PaymentButtonWithCallback;
+export default PaymentButtonWithCallbackv1;

@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 const { mydb } = require("./model/db");
+dotenv.config();
 
 const port = 9000;
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes
 /* User Route */
 app.use("/api/esewa", require("./Routes/EsewaRoute"));
+app.use("/api/esewav1", require("./Routes/EsewaRouteV1"));
 
 // Serve React app for any other routes
 // app.get("*", (req, res) => {
@@ -33,5 +35,5 @@ app.use((req, res) => {
 
 app.listen(port, () => {
   mydb;
-  console.log(`[+] SERVER STARTED AT http://localhost:${port}`);
+  console.log(`[+] SERVER STARTED AT http://${process.env.IP_ADDRESS}:${port}`);
 });

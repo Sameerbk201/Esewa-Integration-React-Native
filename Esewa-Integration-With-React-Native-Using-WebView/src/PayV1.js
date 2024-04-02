@@ -20,12 +20,11 @@ const PayV1 = () => {
         // const decodedData = Buffer.from(dataParam, "base64").toString("utf-8");
         // Parse the decoded data
         const parsedData = JSON.parse(decodedData);
-        const { transaction_uuid } = parsedData;
+        // const { transaction_uuid } = parsedData;
         console.log({ parsedData });
 
         // Display the parsed data or perform any necessary actions
-        Alert.alert("Payment Callback", JSON.stringify(parsedData));
-
+        // Alert.alert("Payment Callback", JSON.stringify(parsedData));
         // const response = await fetch(testurl + transaction_uuid);
         // const confirmationdata = await response.json();
         // console.log({confirmationdata});
