@@ -37,7 +37,7 @@ class EsewaControllerV1 {
 
   getOrders = async (req, res) => {
     try {
-      const orders = await Order.find();
+      const orders = await Order.find().sort({ updatedAt: -1 });
       return res.json({ status: true, message: orders });
     } catch (error) {
       return res.json({ status: true, message: error.message });
@@ -78,7 +78,7 @@ class EsewaControllerV1 {
     }
   };
   handleFailure = async (req, res) => {
-    return res.redirect(process.env.FRONTEND_URL+'/esewapaymentfailure');
+    return res.redirect(process.env.FRONTEND_URL + "/esewapaymentfailure");
   };
 }
 
