@@ -7,6 +7,11 @@ const Esewav1 = () => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState(null);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   const getOrders = async () => {
     try {
@@ -46,7 +51,7 @@ const Esewav1 = () => {
       );
       const data = await response.json();
       console.log(data.message);
-      esewaCall(data.message)
+      esewaCall(data.message);
     } catch (error) {}
   };
 
@@ -121,7 +126,7 @@ const Esewav1 = () => {
       <button className="btn" onClick={handlePayment}>
         Make Payment
       </button>
-      <div style={{ height: "400px", overflow: "auto" }}>
+      <div style={{ height: "400px", overflow: "auto", cursor: "pointer" }}>
         <table className="table">
           <thead>
             <tr>
@@ -130,6 +135,7 @@ const Esewav1 = () => {
               <th>Amount</th>
               <th>Status</th>
               <th>Transaction Code</th>
+              <th>View Details</th>
             </tr>
           </thead>
           <tbody>
@@ -140,10 +146,46 @@ const Esewav1 = () => {
                 <td>{order.amount}</td>
                 <td>{order.status}</td>
                 <td>{order.transaction_code}</td>
+                <td>
+                  <button
+                    className="btn"
+                    onClick={(e) => {
+                      setIsOpen(true);
+                      setMessage(JSON.stringify(order));
+                    }}
+                  >
+                    View
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <div className="modal-container">
+          {/* <button className="open-button" onClick={toggleModal}>
+          Open Modal
+        </button> */}
+          {isOpen && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <div className="modal-header">
+                  <h2>Transaction details</h2>
+                  <button className="close-button" onClick={toggleModal}>
+                    &times;
+                  </button>
+                </div>
+                <div className="modal-content">
+                  <p style={{ overflow: "auto" }}>{message}</p>
+                </div>
+                <div className="modal-footer">
+                  <button className="close-button" onClick={toggleModal}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
