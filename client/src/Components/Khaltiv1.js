@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Esewa.css";
 
-const Esewav1 = () => {
+const Khaltiv1 = () => {
   const [orders, setOrders] = useState([]);
   const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
@@ -16,7 +16,7 @@ const Esewav1 = () => {
   const getOrders = async () => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_BACKEND_URL + "/api/esewa/getorders"
+        process.env.REACT_APP_BACKEND_URL + "/api/khaltiv1/getordersv1"
       );
       const data = await response.json();
       console.log(data);
@@ -28,6 +28,7 @@ const Esewav1 = () => {
 
   const handlePayment = async (e) => {
     const payload = {
+      payment_method:'khalti',
       amount: 100,
       products: [
         {
@@ -40,7 +41,7 @@ const Esewav1 = () => {
     console.log(payload);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/esewav1/createorderv1`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/khaltiv1/createorderv1`,
         {
           method: "POST",
           headers: {
@@ -51,28 +52,14 @@ const Esewav1 = () => {
       );
       const data = await response.json();
       console.log(data.message);
-      esewaCall(data.message);
+      khaltiCall(data.message.data);
     } catch (error) {}
   };
 
-  const esewaCall = (formData) => {
+  const khaltiCall = (data) => {
     try {
-      console.log(formData);
-      var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
-
-      var form = document.createElement("form");
-      form.setAttribute("method", "POST");
-      form.setAttribute("action", path);
-
-      for (var key in formData) {
-        var hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", key);
-        hiddenField.setAttribute("value", formData[key]);
-        form.appendChild(hiddenField);
-      }
-      document.body.appendChild(form);
-      form.submit();
+      console.log(data.payment_url);
+      window.location.href = data.payment_url;
     } catch (error) {
       console.log(`[+] Esewa Failed : `, error.message);
     }
@@ -120,11 +107,11 @@ const Esewav1 = () => {
           onChange={(e) => setProductQuantity(parseInt(e.target.value))}
         />
       </div>
-      <button className="btn" onClick={(e) => getOrders}>
+      <button className="btnkhalti" onClick={(e) => getOrders}>
         Refresh
       </button>
-      <button className="btn" onClick={handlePayment}>
-        Esewa
+      <button className="btnkhalti" onClick={handlePayment}>
+        Khalti
       </button>
       <div style={{ height: "400px", overflow: "auto", cursor: "pointer" }}>
         <table className="table">
@@ -191,4 +178,4 @@ const Esewav1 = () => {
   );
 };
 
-export default Esewav1;
+export default Khaltiv1;

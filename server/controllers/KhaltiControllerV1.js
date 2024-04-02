@@ -1,12 +1,12 @@
 const crypto = require("crypto");
 const Order = require("../model/Order");
 const dotenv = require("dotenv");
-const { esewaUtil } = require("../Utils/EsewaUtil");
 dotenv.config();
+const axios = require("axios");
 
-class KhaltiController {
+class KhaltiControllerV1 {
   constructor() {
-    this.key = `test_secret_key_c3f4c848aa8d47b38f8ab47a046027ed`;
+    this.key = ``;
   }
   createOrder = async (req, res) => {
     try {
@@ -14,13 +14,10 @@ class KhaltiController {
       console.log(req.body);
       const newOrder = new Order(req.body);
       const order = await newOrder.save();
-      /* Create signature as mentioned in the documentation */
-      const signature = esewaUtil.createEsewaSignature(
-        `total_amount=${order.amount},transaction_uuid=${order._id},product_code=EPAYTEST`
-      );
+
       /* Create FormData As Mentioned In the documentation */
       const formData = {
-        return_url: `${process.env.BACKEND_URL}/api/khalti/success`,
+        return_url: `${process.env.BACKEND_URL}/api/khaltiv1/successv1`,
         website_url: `${process.env.FRONTEND_URL}/khalti`,
         amount: order.amount * 100, //paisa
         purchase_order_id: order._id,
@@ -52,6 +49,7 @@ class KhaltiController {
         },
       });
     } catch (error) {
+      console.log(error);
       return res.json({ status: false, message: error.message });
     }
   };
@@ -106,10 +104,10 @@ class KhaltiController {
 
       const order = await Order.findById(transaction_uuid);
       order.status = "paid";
+      order.payment_method = "khalti";
       order.transaction_code = transaction_code;
       const orderupdated = await order.save();
       return res.redirect(process.env.FRONTEND_URL + "/khalti");
-
     } catch (err) {
       console.log(err);
       return res
@@ -123,5 +121,5 @@ class KhaltiController {
   };
 }
 
-const KhaltiController = new KhaltiController();
-module.exports.KhaltiController = KhaltiController;
+const KhaltiControllerv1 = new KhaltiControllerV1();
+module.exports.KhaltiControllerv1 = KhaltiControllerv1;

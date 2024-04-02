@@ -22,6 +22,7 @@ app.use(express.json());
 /* User Route */
 app.use("/api/esewa", require("./Routes/EsewaRoute"));
 app.use("/api/esewav1", require("./Routes/EsewaRouteV1"));
+app.use("/api/khaltiv1", require("./Routes/KhaltRouteV1"));
 
 // Serve React app for any other routes
 // app.get("*", (req, res) => {

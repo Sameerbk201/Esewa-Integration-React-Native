@@ -39,6 +39,16 @@ td {
   margin-right: 10px;
 }
 
+.btnkhalti {
+  background-color: #8348aa;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
 .btn:hover {
   background-color: #45a049;
 }
